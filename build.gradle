@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:5.9.3")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation "org.assertj:assertj-core:3.24.2"
+}
+
+group = 'org.douggschwind'
+version = '1.0-SNAPSHOT'
+description = 'Games'
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked"
+        }
+    }
+}
+
