@@ -49,6 +49,25 @@ jacocoTestReport {
     }
 }
 
+javadoc {
+    options.encoding = 'UTF-8'
+    source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+jar {
+    archiveBaseName = 'games'
+    archiveVersion = project.version
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': project.group
+        )
+    }
+}
+
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {

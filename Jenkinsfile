@@ -15,7 +15,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh 'chmod +x gradlew'
-                sh './gradlew clean test jacocoTestReport'
+                sh './gradlew clean build test jacocoTestReport javadoc'
             }
         }
         
@@ -55,6 +55,14 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'build/reports/jacoco/test/html/**/*', fingerprint: true
+            publishHTML([
+                reportDir: 'build/docs/javadoc',
+                reportFiles: 'index.html',
+                reportName: 'JavaDoc',
+                keepAll: true,
+                alwaysLinkToLastBuild: true
+            ])
+            archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
         }
     }
 }
